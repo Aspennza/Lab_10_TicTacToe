@@ -19,16 +19,28 @@ public class TicTacToe
 
         do
         {
+            //only clear board and reset move count if game is won/tied
             clearBoard();
             moveCount = 0;
             player = "X";
+
+            if(moveCount != 0)
+            {
+                if(player.equals("X"))
+                {
+                    player = "O";
+                }else
+                {
+                    player = "X";
+                }
+            }
 
             display();
 
             do
             {
-                rowMove = SafeInput.getRangedInt(in, "Enter the row coordinate of your move", 1, 3);
-                colMove = SafeInput.getRangedInt(in, "Enter the column coordinate of your move", 1, 3);
+                rowMove = SafeInput.getRangedInt(in, "Player " + player + ", enter the row coordinate of your move", 1, 3);
+                colMove = SafeInput.getRangedInt(in, "Player " + player + ", enter the column coordinate of your move", 1, 3);
 
                 rowMove = rowMove - 1;
                 colMove = colMove - 1;
@@ -86,6 +98,38 @@ public class TicTacToe
         }while(!isValidMove);
 
         return isValidMove;
+    }
+
+    private static boolean isWin(String player)
+    {
+        if(isColWin(player) || isRowWin(player) || isDiagonalWin(player)) {
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean isColWin(String player)
+    {
+        for(int col = 0; col < COLS; col++)
+        {
+            if(board[0][col].equals(player) && board[1][col].equals(player) && board[2][col].equals(player))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean isRowWin(String player)
+    {
+        for(int row = 0; row < ROWS; row++)
+        {
+            if(board[row][0].equals(player) && board[row][1].equals(player) && board[row][2].equals(player))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
